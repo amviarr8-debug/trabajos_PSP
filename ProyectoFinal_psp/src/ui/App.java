@@ -4,14 +4,9 @@
  */
 package ui;
 
-import domain.ProcessResult;
-import infra.Platform;
-import util.Time;
 
-/**
- *
- * @author Manolo
- */
+
+
 public class App {
 
     /**
