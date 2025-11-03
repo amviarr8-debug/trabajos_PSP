@@ -2,21 +2,25 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
-package proyectofinal_psp;
+package ui;
+
+import domain.ProcessResult;
+import infra.Platform;
+import util.Time;
 
 /**
  *
  * @author Manolo
  */
-public class ProyectoFinal_psp {
+public class App {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        System.out.println("SOCORRO");
-        System.out.println("nuevo");
+      
+        
     }
     
 }
