@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package domain;
+import java.time.Duration;
 import java.time.Instant;
 
 public class Job {
@@ -30,9 +31,16 @@ public class Job {
     }
 
     public ProcessResult toResult() {
-        String estado = isAlive() ? "RUNNING" : "EXIT OK";
-        int exit = isAlive() ? 0 : 0; // simple placeholder; puedes mejorar al capturar exitValue si terminó
-        return new ProcessResult(pid, cmd, estado, exit, 0);
+      boolean vivo = isAlive();
+    String estado = vivo ? "RUNNING" : "EXIT OK";
+    int exit = vivo ? -1 : 0;
+    long dur = Duration.between(start, Instant.now()).toMillis(); // define exactamente l tiempo que el proceso lleva corriendo
+    return new ProcessResult(pid, cmd, estado, exit, dur);
     }
+//    public ProcessResult toResult() {
+//    String estado = isAlive() ? "RUNNING" : "EXIT OK";
+//    int exit = isAlive() ? -1 : 0;
+//    return new ProcessResult(pid, cmd, estado, exit, 0);
+//}
 }
 
