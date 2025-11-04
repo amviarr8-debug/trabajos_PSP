@@ -6,24 +6,29 @@ package domain;
 
 public class ProcessResult {
     private final long pid;
-    private final String cmd;
-    private final String estado;
+    private final String command;
     private final int exitCode;
-    private final long duracion;
+    private final String status;
+    private final long durationMs;
 
-    public ProcessResult(long pid, String cmd, String estado, int exitCode, long duracion) {
-        this.pid = pid; this.cmd = cmd; this.estado = estado; this.exitCode = exitCode; this.duracion = duracion;
+    public ProcessResult(long pid, String command, int exitCode, String status, long durationMs) {
+        this.pid = pid;
+        this.command = command;
+        this.exitCode = exitCode;
+        this.status = status;
+        this.durationMs = durationMs;
     }
 
-    public long pid() { return pid; }
-    public String cmd() { return cmd; }
-    public String estado() { return estado; }
-    public int exitCode() { return exitCode; }
-    public long duracion() { return duracion; }
+    public long getPid() { return pid; }
+    public String getCommand() { return command; }
+    public int getExitCode() { return exitCode; }
+    public String getStatus() { return status; }
+    public long getDurationMs() { return durationMs; }
 
     @Override
     public String toString() {
-        return String.format("PID=%d CMD=\"%s\" EXIT=%d ESTADO=%s DUR=%dms", pid, cmd, exitCode, estado, duracion);
+        return String.format("PID=%d | CMD=\"%s\" | EXIT=%d | STATUS=%s | DUR=%dms",
+                pid, command, exitCode, status, durationMs);
     }
 }
 

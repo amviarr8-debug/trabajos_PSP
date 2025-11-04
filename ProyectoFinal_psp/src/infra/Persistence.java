@@ -5,24 +5,40 @@
 package infra;
 import domain.ProcessResult;
 import java.io.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import util.Time;
 
 public class Persistence {
-    private final String path = "historial/historial_interprete.log"; // ryta para el log del historial  de resultados en la consola
+    
+    private final File historyFile;
 
-    public void writeHistory(ProcessResult r) {
-        try {
-            File dir = new File("historial");
-            if (!dir.exists()) dir.mkdirs();
-            try (FileWriter fw = new FileWriter(path, true)) {
-                fw.write(String.format("%s | PID=%d | CMD=\"%s\" | ESTADO=%s | EXIT=%d | DUR=%dms%n",
-                        new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),
-                        r.pid(), r.cmd(), r.estado(), r.exitCode(), r.duracion()));
-            }
-        } catch (IOException ignored) {}
+    public Persistence() {
+        File dir = new File("historial");
+        if (!dir.exists()) dir.mkdirs();  // crea la carpeta si no existe
+        this.historyFile = new File(dir, "mi_interprete_historial.log");
     }
 
-    public String getHistoryPath() { return path; }
+    public void write(ProcessResult result) {
+        try (FileWriter fw = new FileWriter(historyFile, true)) {
+            fw.write(String.format(
+                "%s | PID=%d | CMD=\"%s\" | EXIT=%d | STATUS=%s | DUR=%dms%n",
+                Time.now(),
+                result.getPid(),
+                result.getCommand(),
+                result.getExitCode(),
+                result.getStatus(),
+                result.getDurationMs()
+            ));
+        } catch (IOException e) {
+            System.err.println("[ERROR] No se pudo escribir en el historial: " + e.getMessage());
+        }
+    }
+
+   
+   //  Devuelve la ruta absoluta del archivo de historial.
+     
+    public String getPath() {
+        return historyFile.getAbsolutePath();
+    }
+
 }
 

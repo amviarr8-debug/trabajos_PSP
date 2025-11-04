@@ -11,9 +11,14 @@ public class EnvManager {
     // Copia editable de las variables de entorno del sistema
     private final Map<String, String> env = new HashMap<>(System.getenv());
 
-    // Constructor por defecto (ya inicializa con System.getenv() arriba)
+    // Constructor por defecto (ya inicializa con System.getenv())
 
-    // Crea o actualiza una variable de entorno
+    public EnvManager() {
+    }
+    
+    /* Crea o actualiza una variable de entorno. Este esel metodo con el que podemos modificar 
+    las variables que no nos permite el System.getenv().*/
+    
     public void set(String var, String value) {
         if (var == null || var.isBlank()) return;
         env.put(var, value);
@@ -32,7 +37,7 @@ public class EnvManager {
     // Devuelve todas las variables como un String legible (KEY=VALUE\n)
     public String getAll() {
         StringBuilder sb = new StringBuilder();
-        env.forEach((k, v) -> sb.append(k).append("=").append(v).append("\n"));
+        env.forEach((k, v) -> sb.append(k).append("=").append(v).append("\n")); // generamos un foreach para devolver los valores 
         return sb.toString();
     }
 
