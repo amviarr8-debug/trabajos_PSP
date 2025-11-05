@@ -6,6 +6,8 @@ package domain;
 import java.time.Duration;
 import java.time.Instant;
 
+// Entidad que representa un proceso en ejecución (background).
+
 public class Job {
     private final long pid;
     private final String command;

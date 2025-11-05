@@ -4,6 +4,9 @@
  */
 package domain;
 
+
+// Entidad simple que representa el resultado de un proceso ejecutado.
+
 public class ProcessResult {
     private final long pid;
     private final String command;

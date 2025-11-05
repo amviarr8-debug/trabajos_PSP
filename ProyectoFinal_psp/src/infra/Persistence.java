@@ -32,9 +32,6 @@ public class Persistence {
             System.err.println("[ERROR] No se pudo escribir en el historial: " + e.getMessage());
         }
     }
-
-   
-   //  Devuelve la ruta absoluta del archivo de historial.
      
     public String getPath() {
         return historyFile.getAbsolutePath();

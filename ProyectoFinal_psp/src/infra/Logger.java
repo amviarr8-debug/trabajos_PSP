@@ -11,7 +11,7 @@ import java.io.IOException;
 //  Guarda los logs en la carpeta "logs/" con nombres únicos.
  
 public class Logger {
-
+    
     private final File logFile;
 
     public Logger() {
