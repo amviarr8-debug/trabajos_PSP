@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ProcessRunner {
 
-    public long defaultTimeoutMs;
+    public long defaultTimeoutMs = 60000;
     private Path currentDirectory = Paths.get(System.getProperty("user.dir"));
 
     public void setDefaultTimeout(long timeoutMs) {
@@ -35,8 +35,8 @@ public class ProcessRunner {
 
         List<String> cmd = Platform.wrapForShell(command);
         ProcessBuilder pb = new ProcessBuilder(cmd);
-
-        pb.directory(currentDirectory.toFile());
+        timeoutMs = defaultTimeoutMs;
+        pb.directory(new File(System.getProperty("user.dir")));
         pb.redirectInput(ProcessBuilder.Redirect.INHERIT);
         pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
         pb.redirectError(ProcessBuilder.Redirect.INHERIT);
@@ -60,13 +60,13 @@ public class ProcessRunner {
         File errFile = new File(dir, "bg_err_" + ts + ".log");
 
         ProcessBuilder pb = new ProcessBuilder(cmd);
-        pb.directory(currentDirectory.toFile());
+        pb.directory(new File(System.getProperty("user.dir")));
         pb.redirectOutput(outFile);
         pb.redirectError(errFile);
 
         Process p = pb.start();
         return new Job(p.pid(), command, Instant.now(), p,
-                outFile.getAbsolutePath(), errFile.getAbsolutePath());
+                outFile.getName(), errFile.getName());
     }
 
     // ---------------------------------------------------------------------

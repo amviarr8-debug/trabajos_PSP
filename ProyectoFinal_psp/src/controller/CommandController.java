@@ -14,9 +14,10 @@ public class CommandController {
     private final Persistence persistence = new Persistence();
     private final Logger logger = new Logger();
     private final EnvManager evn = new EnvManager();
+    private final ProcessRegistry registry = new ProcessRegistry();
 
     // Tiempo por defecto (5 segundos)
-    private long defaultTimeoutMs = 5000;
+    private long defaultTimeoutMs = 60000;
 
     public String execute(String input) throws Exception {
         input = input.trim();
@@ -27,15 +28,18 @@ public class CommandController {
         // Comandos principales
         if (input.startsWith("runbg")) {return runBackground(input.substring(6).trim()); }
         if (input.startsWith("run")) {return runForeground(input.substring(4).trim());}
+        if (input.startsWith("jobs")) {return registry.listJobs();}
         if (input.startsWith("timeout")) {return handleTimeout(input);}
         if (input.startsWith("getenv")) {return evn.getAll();}
         if (input.startsWith("setenv")) {return setEnv(input);}
         if (input.equals("history")) {return "Historial en: " + persistence.getPath();}
+        if (input.equals("directory")) {return processRunner.getCurrentDirectory();}
+        if (input.equals("setdir")) {return processRunner.setCurrentDirectory(input.substring(6).trim());}
         if (input.equals("logs")) {return "Logs en: " + logger.getPath();}
-        
-        if (input.equals("exit")) {return "EXIT";}
-
-        return "Comando no reconocido.";
+        if (input.startsWith("kill")) return kill(input);
+        if (input.equals("exit")) {return handleExit();}
+        if (input.equals("help")){ return "Lista de comandos: run, runbg, jobs, kill, getenv, setenv, timeout, history, directory, setdir, logs, kill,  exit ";}
+        return "Comando no reconocido. Introduce help.";
     }
 
     // ------------------------------------------------------------------------
@@ -49,6 +53,7 @@ public class CommandController {
 
     private String runBackground(String args) throws Exception {
         Job job = processRunner.runBackground(args);
+        registry.addJob(job);
         persistence.write(new ProcessResult(job.getPid(), job.getCommand(), 0, "RUNNING", 0));
         logger.log("BG PID=" + job.getPid() + " CMD=" + job.getCommand());
         return "BG PID=" + job.getPid() + " OUT=" + job.getOutFile() + " ERR=" + job.getErrFile();
@@ -75,4 +80,24 @@ public class CommandController {
         evn.set(key, value);
         return "Variable " + key + "=" + value + " guardada.";
     }
+    
+    private String handleExit() {
+    String report = registry.exitCheck();
+    if (!report.isEmpty()) {
+        return report; // hay procesos vivos, mostrar advertencia
+    }
+    return "EXIT"; // seguro salir
+}
+    
+    private String kill(String line) {
+    String[] parts = line.split("\\s+");
+    if (parts.length < 2) return "Uso: kill <pid>";
+
+    try {
+        long pid = Long.parseLong(parts[1]);
+        return registry.kill(pid);
+    } catch (NumberFormatException e) {
+        return "PID inválido: " + parts[1];
+    }
+}
 }

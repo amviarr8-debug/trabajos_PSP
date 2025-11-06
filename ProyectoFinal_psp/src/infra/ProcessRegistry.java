@@ -19,10 +19,11 @@ public class ProcessRegistry {
             return "No hay procesos en background.";
         }
 
-        StringBuilder sb = new StringBuilder("PID\tESTADO\tCMD\n");
+        StringBuilder sb = new StringBuilder("PID\tESTADO\tINICIO\tCMD\n");
         for (Job j : jobs) {
             sb.append(j.getPid()).append("\t")
               .append(j.isAlive() ? "VIVO" : "MUERTO").append("\t")
+              .append(j.getStartTime()).append("\t")
               .append(j.getCommand()).append("\n");
         }
         return sb.toString();

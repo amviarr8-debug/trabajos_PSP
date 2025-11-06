@@ -1,0 +1,3 @@
+2025-11-06 21:12:37 | RUN PID=17460 CMD=ping google.com
+2025-11-06 21:13:02 | RUN PID=7964 CMD=notepad
+2025-11-06 21:13:16 | BG PID=2368 CMD=ping google.com
