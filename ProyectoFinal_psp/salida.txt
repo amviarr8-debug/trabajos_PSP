@@ -1,0 +1,12 @@
+
+Haciendo ping a google.com [216.58.215.174] con 32 bytes de datos:
+Respuesta desde 216.58.215.174: bytes=32 tiempo=62ms TTL=118
+Respuesta desde 216.58.215.174: bytes=32 tiempo=73ms TTL=118
+Respuesta desde 216.58.215.174: bytes=32 tiempo=49ms TTL=118
+Respuesta desde 216.58.215.174: bytes=32 tiempo=80ms TTL=118
+
+Estadísticas de ping para 216.58.215.174:
+    Paquetes: enviados = 4, recibidos = 4, perdidos = 0
+    (0% perdidos),
+Tiempos aproximados de ida y vuelta en milisegundos:
+    Mínimo = 49ms, Máximo = 80ms, Media = 66ms

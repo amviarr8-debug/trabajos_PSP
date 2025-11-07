@@ -29,7 +29,7 @@ public class ProcessRunner {
     }
 
     // ---------------------------------------------------------------------
-    // 🔹 Método 1: Foreground (usa consola)
+    // Método 1: Foreground (usa consola)
     // ---------------------------------------------------------------------
     public ProcessResult runForeground(String command, long timeoutMs) throws IOException, InterruptedException {
 
@@ -45,7 +45,7 @@ public class ProcessRunner {
     }
 
     // ---------------------------------------------------------------------
-    // 🔹 Método 2: Background
+    //Método 2: Background
     // ---------------------------------------------------------------------
     public Job runBackground(String command) throws IOException {
         List<String> cmd = Platform.wrapForShell(command);
@@ -70,7 +70,7 @@ public class ProcessRunner {
     }
 
     // ---------------------------------------------------------------------
-    // 🔹 Método 3: Ejecuta (redirige IN/OUT/ERR + timeout)
+    // Método 3: Ejecuta (redirige IN/OUT/ERR + timeout)
     // ---------------------------------------------------------------------
     public ProcessResult runEjecuta(String args) throws IOException, InterruptedException {
 
@@ -105,7 +105,7 @@ public class ProcessRunner {
     }
 
     // ---------------------------------------------------------------------
-    // 🔹 MÉTODOS AUXILIARES PRIVADOS
+    //  MÉTODOS AUXILIARES PRIVADOS
     // ---------------------------------------------------------------------
     /**
      * Ejecuta un ProcessBuilder con timeout y devuelve el resultado.

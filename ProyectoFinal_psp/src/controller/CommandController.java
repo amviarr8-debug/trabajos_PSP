@@ -2,11 +2,11 @@ package controller;
 
 import infra.*;
 import domain.*;
-import java.util.*;
 
-/**
- * Interpreta los comandos escritos por el usuario y coordina las acciones de
- * las clases del paquete infra.
+
+/*
+  Interpreta los comandos escritos por el usuario y coordina las acciones de
+  las clases del paquete infra.
  */
 public class CommandController {
 
@@ -27,6 +27,7 @@ public class CommandController {
 
         // Comandos principales
         if (input.startsWith("runbg")) {return runBackground(input.substring(6).trim()); }
+        if (input.startsWith("ejecuta")) {return handleEjecuta(input);}
         if (input.startsWith("run")) {return runForeground(input.substring(4).trim());}
         if (input.startsWith("jobs")) {return registry.listJobs();}
         if (input.startsWith("timeout")) {return handleTimeout(input);}
@@ -38,17 +39,16 @@ public class CommandController {
         if (input.equals("logs")) {return "Logs en: " + logger.getPath();}
         if (input.startsWith("kill")) return kill(input);
         if (input.equals("exit")) {return handleExit();}
-        if (input.equals("help")){ return "Lista de comandos: run, runbg, jobs, kill, getenv, setenv, timeout, history, directory, setdir, logs, kill,  exit ";}
+        if (input.equals("help")){ return "Lista de comandos: run, runbg, ejecuta, jobs, kill, getenv, setenv, timeout, history, directory, setdir, logs, kill, exit ";}
         return "Comando no reconocido. Introduce help.";
     }
 
-    // ------------------------------------------------------------------------
+    
     private String runForeground(String args) throws Exception {
         ProcessResult result = processRunner.runForeground(args, defaultTimeoutMs);
         persistence.write(result);
         logger.log("RUN PID=" + result.getPid() + " CMD=" + result.getCommand());
-        return String.format("Exit=%d  Status=%s  Dur=%dms",
-                result.getExitCode(), result.getStatus(), result.getDurationMs());
+        return result.toString();
     }
 
     private String runBackground(String args) throws Exception {
@@ -98,6 +98,17 @@ public class CommandController {
         return registry.kill(pid);
     } catch (NumberFormatException e) {
         return "PID inválido: " + parts[1];
+    }
+}
+    private String handleEjecuta(String input) {
+    try {
+                
+        String commandArgs = input.substring(7).trim();
+        ProcessResult result = processRunner.runEjecuta(commandArgs);
+        persistence.write(result);
+        return result.toString();
+    } catch (Exception e) {
+        return "Error al ejecutar el comando: " + e.getMessage();
     }
 }
 }

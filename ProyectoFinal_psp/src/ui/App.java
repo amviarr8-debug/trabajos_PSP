@@ -9,7 +9,7 @@ public class App {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("=== Mini Intérprete de Comandos ===");
-        System.out.println("Escribe un comando o 'exit' para salir.\n");
+        System.out.println("Escribe un comando, help o 'exit' para salir.\n");
 
         while (true) {
             System.out.print("> ");  // prompt del intérprete
